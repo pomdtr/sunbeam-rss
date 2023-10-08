@@ -1,4 +1,4 @@
-if (Deno.args.length == 1 && Deno.args[0] == "manifest") {
+if (Deno.args.length == 0) {
   const manifest = {
     title: "RSS",
     commands: [
@@ -24,12 +24,11 @@ import Parser from "npm:rss-parser";
 import { formatDistance } from "npm:date-fns";
 import { toJson } from "https://deno.land/std@0.203.0/streams/mod.ts";
 
-const { command, params } = await toJson(Deno.stdin.readable) as {
-  command: string;
-  params: { [key: string]: any };
-};
+if (Deno.args[0] == "show") {
+  const { params } = await toJson(Deno.stdin.readable) as {
+    params: { url: string };
+  };
 
-if (command == "show") {
   const url = params.url;
 
   const feed = await new Parser().parseURL(url);
