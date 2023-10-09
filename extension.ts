@@ -9,6 +9,7 @@ if (Deno.args.length == 0) {
         params: [
           {
             name: "url",
+            required: true,
             type: "string",
           },
         ],
@@ -22,17 +23,10 @@ if (Deno.args.length == 0) {
 
 import Parser from "npm:rss-parser";
 import { formatDistance } from "npm:date-fns";
-import { toJson } from "https://deno.land/std@0.203.0/streams/mod.ts";
 
 if (Deno.args[0] == "show") {
-  const { params } = await toJson(Deno.stdin.readable) as {
-    params: { url: string };
-  };
-
-  const url = params.url;
-
-  const feed = await new Parser().parseURL(url);
-
+  const { params } = await new Response(Deno.stdin.readable).json();
+  const feed = await new Parser().parseURL(params.url);
   const page = {
     type: "list",
     items: feed.items.map((item) => ({
