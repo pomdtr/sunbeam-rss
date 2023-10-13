@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-sunbeam extension install https://github.com/pomdtr/sunbeam-rss
+sunbeam extension install github:pomdtr/sunbeam-rss
 ```
 
 ## Usage
